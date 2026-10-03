@@ -11,7 +11,10 @@ A modern, responsive, and performant React application built to explore movies f
 - **Testing:** Vitest + React Testing Library
 
 ## Feature Highlights
-1. **Enterprise-grade Architecture:** Applied strict separation of concerns using the Component-Hook pattern (e.g., `HomePage.tsx` for pure UI and `useHomePage.ts` for state logic) following scalable front-end conventions.
+1. **Enterprise-Grade Architecture:** Applied strict separation of concerns using the "Feature-Sliced Component-Hook" pattern:
+   - `*.page.tsx` / `*.component.tsx`: Pure dumb components that only return JSX/Tailwind. No `useState` or logic inside.
+   - `*.hook.ts`: Brains of the application. Contains 100% of the states, handlers, and side-effects.
+   - Private Functions (`_functionName`): Functions are highly decomposed (max 35 lines) to respect clean code standards.
 2. **Infinite Scroll:** Integrated `IntersectionObserver` to trigger smooth automatic loading of paginated API data.
 3. **Optimized API Calls:** 
    - Centralized `axios` interceptor passing the `Bearer Token` via HTTP headers, not URL params.
@@ -21,7 +24,16 @@ A modern, responsive, and performant React application built to explore movies f
    - Shimmer skeleton loaders.
    - Fallback error images using Unsplash if TMDB poster paths return `null`.
    - `navigate(-1)` on the Back button preserves list scroll state perfectly.
-5. **Verified Stability:** `vitest` unit test suite maps 1:1 with source files (`__tests__/pages/HomePage.test.tsx` tests `HomePage.tsx`), asserting rendering logic, DOM state, and mocked hook dependencies perfectly.
+5. **Verified Stability (100% Code Coverage):** 
+   - `vitest` unit test suite uses the modern *Colocated Test* pattern (e.g., `Home.page.test.tsx` sits next to `Home.page.tsx`).
+   - Achieved **100% Statements, Lines, and Functions Coverage** across all business logic layers (`*.hook.ts` & `*.api.ts`) using Black-box public API testing. HTML/JSX logic is heavily covered via React Testing Library interaction tests.
+
+## File Naming Conventions
+- `*.api.ts`: Centralized HTTP endpoints logic.
+- `*.component.tsx`: Global UI components.
+- `*.page.tsx`: Route-level UI layout views.
+- `*.hook.ts`: Isolated business logic and state managers.
+- `*.test.tsx` / `*.test.ts`: Colocated unit tests for specific files.
 
 ## How to Run Locally
 
@@ -40,5 +52,6 @@ A modern, responsive, and performant React application built to explore movies f
 
 ## Development Commands
 - **Lint / Type Check:** `pnpm run lint` (uses `tsc --noEmit`)
-- **Unit Tests:** `pnpm exec vitest run`
+- **Unit Tests:** `pnpm test`
+- **Test Coverage:** `pnpm run coverage` (View HTML report in `/coverage/index.html`)
 - **Production Build:** `pnpm run build`
