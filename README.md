@@ -1,32 +1,44 @@
-# React + TypeScript + Vite
+# CineStream - TMDB Movie Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A modern, responsive, and performant React application built to explore movies from the TMDB API. Created as a Technical Test for a Front-End Developer position.
 
-Currently, two official plugins are available:
+## Tech Stack & Architecture
+- **Framework:** React 18 + Vite (TypeScript)
+- **Styling:** Tailwind CSS (v4) with Dark Cinema Theme
+- **Data Fetching:** Axios with Custom Hooks (`useTMDB.ts`)
+- **Routing:** React Router v6
+- **Icons:** Lucide React
+- **Testing:** Vitest + React Testing Library
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Feature Highlights
+1. **Enterprise-grade Architecture:** Applied strict separation of concerns using the Component-Hook pattern (e.g., `HomePage.tsx` for pure UI and `useHomePage.ts` for state logic) following scalable front-end conventions.
+2. **Infinite Scroll:** Integrated `IntersectionObserver` to trigger smooth automatic loading of paginated API data.
+3. **Optimized API Calls:** 
+   - Centralized `axios` interceptor passing the `Bearer Token` via HTTP headers, not URL params.
+   - `useDebounce` hook guarantees no API spam when the user is typing in the search bar.
+   - Used `append_to_response=credits` on the Detail API to fetch the movie profile, cast, and director in a single network request.
+4. **Resilient UX:** 
+   - Shimmer skeleton loaders.
+   - Fallback error images using Unsplash if TMDB poster paths return `null`.
+   - `navigate(-1)` on the Back button preserves list scroll state perfectly.
+5. **Verified Stability:** `vitest` unit test suite maps 1:1 with source files (`__tests__/pages/HomePage.test.tsx` tests `HomePage.tsx`), asserting rendering logic, DOM state, and mocked hook dependencies perfectly.
 
-## React Compiler
+## How to Run Locally
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. Create a `.env.local` in the root folder with your TMDB API v3 / v4 token:
+   ```env
+   VITE_TMDB_ACCESS_TOKEN=your_jwt_bearer_token_here
+   ```
+2. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+3. Start development server:
+   ```bash
+   pnpm dev
+   ```
 
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Development Commands
+- **Lint / Type Check:** `pnpm run lint` (uses `tsc --noEmit`)
+- **Unit Tests:** `pnpm exec vitest run`
+- **Production Build:** `pnpm run build`

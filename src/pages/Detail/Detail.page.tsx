@@ -1,0 +1,48 @@
+import { ArrowLeft, Film, Star, Clock } from 'lucide-react';
+import { useDetailHook } from './Detail.hook';
+
+function _getImageUrl(path: string | null) {
+  return path ? `https://image.tmdb.org/t/p/w500${path}` 
+              : 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500&q=60';
+}
+
+export function DetailPage() {
+  const { state, handlers } = useDetailHook();
+
+  if (state.isLoading) return <div className="p-20 flex justify-center"><Film className="w-8 h-8 animate-spin text-amber-500" /></div>;
+  if (state.error || !state.movie) return <div className="p-20 text-center text-red-400">{state.error || 'Not found'}</div>;
+
+  return (
+    <main className="max-w-5xl mx-auto px-4 py-6 w-full animate-fadeIn">
+      <button onClick={handlers.goBack} className="mb-6 flex items-center gap-2 text-slate-400 hover:text-white">
+        <ArrowLeft className="w-4 h-4"/> Back
+      </button>
+      <div className="flex flex-col md:flex-row gap-8">
+        <img src={_getImageUrl(state.movie.poster_path)} alt={state.movie.title} className="w-full md:w-72 rounded-2xl shadow-xl" />
+        <div className="space-y-4 w-full">
+          <h1 className="text-4xl font-bold">{state.movie.title}</h1>
+          <div className="flex gap-4 text-sm text-slate-400">
+            <span className="flex items-center gap-1"><Star className="w-4 h-4 text-amber-500"/> {state.movie.vote_average.toFixed(1)}</span>
+            {state.movie.runtime && <span className="flex items-center gap-1"><Clock className="w-4 h-4"/> {state.movie.runtime} min</span>}
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {state.movie.genres?.map(g => <span key={g.id} className="px-2 py-1 bg-slate-800 rounded-md text-xs">{g.name}</span>)}
+          </div>
+          <p className="text-slate-300 leading-relaxed pt-2">{state.movie.overview}</p>
+          
+          <div className="pt-6 border-t border-slate-800">
+            <h3 className="font-bold mb-3">Top Cast</h3>
+            <div className="flex gap-4 overflow-x-auto pb-4">
+              {state.movie.credits?.cast.slice(0, 5).map(c => (
+                <div key={c.id} className="w-20 shrink-0 text-center">
+                  <img src={_getImageUrl(c.profile_path)} alt={c.name} className="w-16 h-16 rounded-full object-cover mx-auto bg-slate-800 mb-2" />
+                  <p className="text-xs font-semibold line-clamp-1">{c.name}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  );
+}
