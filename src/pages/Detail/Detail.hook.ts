@@ -12,12 +12,25 @@ export function useDetailHook() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!movieId) return;
-    let mounted = true; setIsLoading(true); setError(null);
+    if (!movieId) {
+      return;
+    }
+    
+    let mounted = true; 
+    setIsLoading(true); 
+    setError(null);
+    
     tmdbApi.getMovieDetail(movieId)
-      .then(data => { if(mounted) setMovie(data); })
-      .catch(err => { if(mounted) setError(err.message); })
-      .finally(() => { if(mounted) setIsLoading(false); });
+      .then(data => { 
+        if (mounted) setMovie(data); 
+      })
+      .catch(err => { 
+        if (mounted) setError(err.message); 
+      })
+      .finally(() => { 
+        if (mounted) setIsLoading(false); 
+      });
+      
     return () => { mounted = false; };
   }, [movieId]);
 

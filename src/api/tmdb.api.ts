@@ -38,7 +38,7 @@ const client = axios.create({
   params: { language: 'en-US' },
   headers: {
     'Content-Type': 'application/json;charset=utf-8',
-    ...(ACCESS_TOKEN ? { Authorization: `Bearer ${ACCESS_TOKEN}` } : {}),
+    Authorization: `Bearer ${ACCESS_TOKEN}`
   },
 });
 

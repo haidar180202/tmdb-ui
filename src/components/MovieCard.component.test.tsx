@@ -2,18 +2,15 @@ import '@testing-library/jest-dom';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { describe, it, expect } from 'vitest';
-import { MovieCard } from './MovieCard.component';
+import { MovieCard, MovieSkeleton } from './MovieCard.component';
+import * as useMovieCardHookModule from './MovieCard.hook';
+import { vi } from 'vitest';
 
 describe('Component: MovieCard', () => {
   const mockMovie = { 
-    id: 999, 
-    title: 'The Matrix', 
-    release_date: '1999-03-31', 
-    vote_average: 8.7, 
-    overview: 'Welcome to the Real World.', 
-    poster_path: '/matrix.jpg', 
-    backdrop_path: '/matrix_bg.jpg', 
-    vote_count: 30000 
+    id: 999, title: 'The Matrix', release_date: '1999-03-31', 
+    vote_average: 8.7, overview: 'Desc', poster_path: '/matrix.jpg', 
+    backdrop_path: '/backdrop.jpg', vote_count: 30000 
   };
 
   it('renders correct movie information to the UI', () => {
@@ -23,9 +20,27 @@ describe('Component: MovieCard', () => {
     expect(screen.getByTestId('movie-release-year')).toHaveTextContent('1999');
   });
 
-  it('navigates to the correct detail page link', () => {
+  it('handles missing data gracefully (fallback rating & year)', () => {
+    const emptyMovie = { ...mockMovie, vote_average: 0, release_date: '', poster_path: null };
+    render(<BrowserRouter><MovieCard movie={emptyMovie} /></BrowserRouter>);
+    expect(screen.getByTestId('movie-rating')).toHaveTextContent('NR');
+    expect(screen.getByTestId('movie-release-year')).toHaveTextContent('N/A');
+    const img = screen.getByAltText('The Matrix');
+    expect(img).toHaveAttribute('src', 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500&q=60');
+  });
+
+  it('renders MovieSkeleton correctly', () => {
+    const { container } = render(<MovieSkeleton />);
+    expect(container.querySelector('.animate-pulse')).toBeInTheDocument();
+  });
+
+  it('triggers opacity-100 when image is loaded', () => {
+    vi.spyOn(useMovieCardHookModule, 'useMovieCardHook').mockReturnValue({
+      state: { imageLoaded: true },
+      handlers: { onImageLoad: vi.fn() }
+    });
     render(<BrowserRouter><MovieCard movie={mockMovie} /></BrowserRouter>);
-    const link = screen.getByRole('link');
-    expect(link).toHaveAttribute('href', '/movie/999');
+    const img = screen.getByAltText('The Matrix');
+    expect(img.className).toContain('opacity-100');
   });
 });

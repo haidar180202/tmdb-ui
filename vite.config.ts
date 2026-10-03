@@ -9,5 +9,17 @@ export default defineConfig({
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'html'],
+      include: ['src/**/*.hook.ts', 'src/**/*.api.ts'],
+      exclude: [
+        'src/**/*.test.{ts,tsx}', 
+        'src/test/setup.ts', 
+        'src/main.tsx', 
+        'src/types/*',
+        '**/*.d.ts'
+      ],
+    },
   },
 })

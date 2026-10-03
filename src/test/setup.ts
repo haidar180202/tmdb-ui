@@ -5,4 +5,5 @@ class IntersectionObserverMock {
   unobserve() {}
   disconnect() {}
 }
+
 global.IntersectionObserver = IntersectionObserverMock as any;

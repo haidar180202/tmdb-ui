@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import type { Movie } from '../api/tmdb.api';
 import { useMovieCardHook } from './MovieCard.hook';
 
-function _getImageUrl(path: string | null, type: 'poster'|'backdrop' = 'poster') {
-  return path ? `https://image.tmdb.org/t/p/${type === 'poster' ? 'w500' : 'original'}${path}` 
+function _getImageUrl(path: string | null) {
+  return path ? `https://image.tmdb.org/t/p/w500${path}` 
               : 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500&q=60';
 }
 
