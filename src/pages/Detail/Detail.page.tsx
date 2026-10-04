@@ -39,6 +39,13 @@ export function DetailPage() {
           </div>
           <p className="text-slate-300 leading-relaxed pt-2">{state.movie.overview}</p>
           
+          <div className="pt-4">
+            <h3 className="font-bold text-sm text-slate-400">Director</h3>
+            <p className="font-medium text-slate-100">
+              {state.movie.credits?.crew.find(c => c.job === 'Director')?.name || 'Unknown'}
+            </p>
+          </div>
+          
           <div className="pt-6 border-t border-slate-800">
             <h3 className="font-bold mb-3">Top Cast</h3>
             <div className="flex gap-4 overflow-x-auto pb-4">
