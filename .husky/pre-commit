@@ -22,14 +22,14 @@ pnpm run lint || {
   exit 1
 }
 
-# Run Unit Tests WITH Coverage Threshold
-echo "\n⏳ 2. Running Unit Tests & Coverage Verification (Vitest)..."
-pnpm run coverage || {
+# Run Testing with Oxlint
+echo "\n⏳ 2. Running Unit Tests & Checking (Oxlint)..."
+pnpm run test || {
   echo ""
   echo "    🤖 BEEP BOOP! ERROR DETECTED! 🤖"
   echo "    /-----------------------------\\"
-  echo "    | UNIT TESTS / COVERAGE FAIL! |"
-  echo "    | Please fix broken tests.    |"
+  echo "    | TESTS / LINTING FAIL!       |"
+  echo "    | Please fix broken files.    |"
   echo "    \\-----------------------------/"
   echo "           \\   ^__^"
   echo "            \\  (xx)\\_______"

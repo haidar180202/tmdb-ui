@@ -1,14 +1,21 @@
 import { RefreshCw, Film, Search, Flame, TrendingUp, Award, Sparkles, X } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 import { MovieCard, MovieSkeleton } from '../../components/MovieCard.component';
 import { useHomeHook } from './Home.hook';
 import type { MovieCategory } from '../../api/tmdb.type';
 
-const CATEGORIES = [
+type CategoryItem = {
+  id: MovieCategory;
+  label: string;
+  icon: LucideIcon;
+};
+
+const CATEGORIES: CategoryItem[] = [
   { id: 'now_playing', label: 'Now Playing', icon: Flame },
   { id: 'popular', label: 'Popular', icon: TrendingUp },
   { id: 'top_rated', label: 'Top Rated', icon: Award },
   { id: 'upcoming', label: 'Upcoming', icon: Sparkles }
-] as const;
+];
 
 function _renderCategoryTabs(state: any, handlers: any) {
   return (
@@ -17,7 +24,7 @@ function _renderCategoryTabs(state: any, handlers: any) {
         <button 
           key={cat.id} 
           data-testid={`cat-${cat.id}`} 
-          onClick={() => handlers.setActiveCategory(cat.id as MovieCategory)} 
+          onClick={() => handlers.setActiveCategory(cat.id)} 
           className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${state.activeCategory === cat.id ? 'bg-amber-500 text-slate-950' : 'text-slate-400 hover:text-white'}`}
         >
           <cat.icon className="w-4 h-4" /> {cat.label}
