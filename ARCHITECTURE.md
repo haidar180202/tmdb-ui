@@ -18,6 +18,8 @@ Readability and maintainability are top priorities.
 ## 3. Strict Suffix Naming Conventions
 Global suffix dot-notation is heavily enforced so developers can immediately identify a file's responsibility without opening it:
 - `*.api.ts` -> Exclusively HTTP methods, Axios instances, and data-transfer objects (DTOs/Interfaces).
+- `*.type.ts` -> TypeScript interfaces and strict type definitions (enforcing zero `any` policy).
+- `*.config.ts` -> Static constants, configurations, and hardcoded array data.
 - `*.component.tsx` -> Reusable, stateless UI blocks.
 - `*.page.tsx` -> Route-level view wrappers.
 - `*.hook.ts` -> Isolated logic for specific pages or components.
@@ -29,7 +31,7 @@ Global suffix dot-notation is heavily enforced so developers can immediately ide
 
 ## 5. Automated Quality Gates & Thresholds
 - **Coverage Threshold Enforcer:** The `vite.config.ts` has a strict gatekeeper configured. Running tests with coverage will automatically **FAIL the build pipeline** if the overall codebase coverage (Statements, Functions, Lines, or Branches) drops below **90%**.
-- **Linting:** The codebase relies on `tsc --noEmit` as a lightweight, lightning-fast linter to catch semantic anomalies before runtime.
+- **Lightning Fast Linting & Typings:** The codebase leverages **Oxlint** (a Rust-based linter executing in milliseconds) for syntax checks, and `tsc -b` for strict typechecking. We strictly enforce a **Zero `any` Type Policy** across the architecture. Any TypeScript or linting violation will be blocked by Husky Git Hooks.
 
 ## 6. Optimized Performance Techniques
 - **Single API Call for Details:** The movie detail page utilizes `append_to_response=credits` to fetch the movie profile, cast list, and director information in a single round-trip to the TMDB server, minimizing network latency.
