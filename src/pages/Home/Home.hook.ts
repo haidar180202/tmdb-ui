@@ -2,6 +2,12 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { tmdbApi } from '../../api/tmdb.api';
 import type { Movie, MovieCategory } from '../../api/tmdb.type';
 
+/**
+ * Delays state updates to prevent rapid consecutive re-renders.
+ * @param {T} value - State to debounce.
+ * @param {number} delay - Delay in milliseconds.
+ * @returns {T} The debounced value.
+ */
 function _useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState(value);
   useEffect(() => {
@@ -11,6 +17,13 @@ function _useDebounce<T>(value: T, delay: number): T {
   return debouncedValue;
 }
 
+/**
+ * Tracks element visibility to trigger infinite scroll.
+ * @param {boolean} hasMore - Boolean indicating if more pages exist.
+ * @param {boolean} isLoading - Boolean indicating current fetch status.
+ * @param {Function} loadMore - Callback to trigger next page fetch.
+ * @returns {React.MutableRefObject<HTMLDivElement | null>} React ref to attach to the sentinel element.
+ */
 function _useIntersectionObserver(hasMore: boolean, isLoading: boolean, loadMore: () => void) {
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
   
@@ -26,6 +39,12 @@ function _useIntersectionObserver(hasMore: boolean, isLoading: boolean, loadMore
   return loadMoreRef;
 }
 
+/**
+ * Manages fetching movies based on category or search query.
+ * @param {MovieCategory} category - Current active category.
+ * @param {string} debouncedQuery - Current active search query.
+ * @returns {Object} Object containing movie array, pagination, state, and fetch trigger.
+ */
 function _useFetchMovies(category: MovieCategory, debouncedQuery: string) {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [page, setPage] = useState(1);
@@ -57,6 +76,10 @@ function _useFetchMovies(category: MovieCategory, debouncedQuery: string) {
   return { movies, page, totalPages, isLoading, error, fetchMovies };
 }
 
+/**
+ * Main hook that composes state, handlers, and refs for HomePage.
+ * @returns {Object} Structured object containing state, handlers, and refs.
+ */
 export function useHomeHook() {
   const [activeCategory, setActiveCategory] = useState<MovieCategory>('popular');
   const [searchQuery, setSearchQuery] = useState('');

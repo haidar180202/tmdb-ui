@@ -3,11 +3,20 @@ import { Link } from 'react-router-dom';
 import type { Movie } from '../api/tmdb.type';
 import { useMovieCardHook } from './MovieCard.hook';
 
+/**
+ * Formats image path into full TMDB URL or returns fallback image.
+ * @param {string | null} path - Partial image path from TMDB.
+ * @returns {string} Full resolved image URL.
+ */
 function _getImageUrl(path: string | null) {
   return path ? `https://image.tmdb.org/t/p/w500${path}` 
               : 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500&q=60';
 }
 
+/**
+ * Placeholder UI component shown while movies are loading.
+ * @returns {JSX.Element} Skeleton loader block.
+ */
 export function MovieSkeleton() {
   return (
     <div className="bg-slate-900/60 rounded-2xl border border-slate-800 overflow-hidden animate-pulse flex flex-col">
@@ -19,6 +28,12 @@ export function MovieSkeleton() {
   );
 }
 
+/**
+ * Renders an individual movie thumbnail card.
+ * @param {Object} props - React props.
+ * @param {Movie} props.movie - Movie data object to render.
+ * @returns {JSX.Element} Movie card component.
+ */
 export function MovieCard({ movie }: { movie: Movie }) {
   const { state, handlers } = useMovieCardHook();
   

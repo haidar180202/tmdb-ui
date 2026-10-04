@@ -1,11 +1,20 @@
 import { ArrowLeft, Film, Star, Clock } from 'lucide-react';
 import { useDetailHook } from './Detail.hook';
 
+/**
+ * Formats image path into full TMDB URL or returns fallback image.
+ * @param {string | null} path - Partial image path from TMDB.
+ * @returns {string} Full resolved image URL.
+ */
 function _getImageUrl(path: string | null) {
   return path ? `https://image.tmdb.org/t/p/w500${path}` 
               : 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=500&q=60';
 }
 
+/**
+ * Main Detail Page view displaying single movie information.
+ * @returns {JSX.Element} The assembled Detail Page.
+ */
 export function DetailPage() {
   const { state, handlers } = useDetailHook();
 

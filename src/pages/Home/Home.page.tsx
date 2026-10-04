@@ -5,6 +5,12 @@ import { CATEGORIES } from './Home.config';
 import type { HomeState, HomeHandlers } from './Home.type';
 import type { Movie } from '../../api/tmdb.type';
 
+/**
+ * Renders the category filter tabs.
+ * @param {HomeState} state - Current UI state.
+ * @param {HomeHandlers} handlers - Action handlers.
+ * @returns {JSX.Element} The category tabs layout.
+ */
 function _renderCategoryTabs(state: HomeState, handlers: HomeHandlers) {
   return (
     <div className="flex gap-2 p-1 bg-slate-900 rounded-xl w-full md:w-auto overflow-x-auto">
@@ -22,6 +28,12 @@ function _renderCategoryTabs(state: HomeState, handlers: HomeHandlers) {
   );
 }
 
+/**
+ * Renders the movie search input bar.
+ * @param {HomeState} state - Current UI state.
+ * @param {HomeHandlers} handlers - Action handlers.
+ * @returns {JSX.Element} The search bar UI.
+ */
 function _renderSearchBar(state: HomeState, handlers: HomeHandlers) {
   return (
     <div className="relative w-full md:w-80">
@@ -38,6 +50,11 @@ function _renderSearchBar(state: HomeState, handlers: HomeHandlers) {
   );
 }
 
+/**
+ * Renders the movie grid or empty state/loaders.
+ * @param {HomeState} state - Current UI state.
+ * @returns {JSX.Element} The grid layout containing movie cards.
+ */
 function _renderMoviesGrid(state: HomeState) {
   if (state.movies.length > 0) {
     return (
@@ -62,6 +79,10 @@ function _renderMoviesGrid(state: HomeState) {
   );
 }
 
+/**
+ * Main Home Page view orchestrating the layout.
+ * @returns {JSX.Element} The assembled Home Page.
+ */
 export function HomePage() {
   const { state, handlers, refs } = useHomeHook();
 

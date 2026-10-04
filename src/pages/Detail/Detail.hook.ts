@@ -3,6 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { tmdbApi } from '../../api/tmdb.api';
 import type { MovieDetail } from '../../api/tmdb.type';
 
+/**
+ * Manages state and data fetching for the Detail Page based on URL parameter.
+ * @returns {Object} Structured object containing state and navigation handlers.
+ */
 export function useDetailHook() {
   const { id } = useParams();
   const navigate = useNavigate();

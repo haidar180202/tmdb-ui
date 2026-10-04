@@ -4,6 +4,10 @@ import { Film } from 'lucide-react';
 import { HomePage } from './pages/Home/Home.page';
 import { DetailPage } from './pages/Detail/Detail.page';
 
+/**
+ * Global navigation header component.
+ * @returns {JSX.Element} The sticky header navigation layout.
+ */
 function Navbar() {
   return (
     <header className="sticky top-0 z-40 bg-slate-950/80 backdrop-blur-xl border-b border-slate-800/80">
@@ -17,6 +21,10 @@ function Navbar() {
   );
 }
 
+/**
+ * Root component providing routing context and main app layout.
+ * @returns {JSX.Element} The main application provider wrapped with routes.
+ */
 export default function App() {
   return (
     <BrowserRouter>
