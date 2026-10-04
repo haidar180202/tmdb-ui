@@ -1,23 +1,11 @@
-import { RefreshCw, Film, Search, Flame, TrendingUp, Award, Sparkles, X } from 'lucide-react';
-import type { LucideIcon } from 'lucide-react';
+import { RefreshCw, Film, Search, X } from 'lucide-react';
 import { MovieCard, MovieSkeleton } from '../../components/MovieCard.component';
 import { useHomeHook } from './Home.hook';
-import type { MovieCategory } from '../../api/tmdb.type';
+import { CATEGORIES } from './Home.config';
+import type { HomeState, HomeHandlers } from './Home.type';
+import type { Movie } from '../../api/tmdb.type';
 
-type CategoryItem = {
-  id: MovieCategory;
-  label: string;
-  icon: LucideIcon;
-};
-
-const CATEGORIES: CategoryItem[] = [
-  { id: 'now_playing', label: 'Now Playing', icon: Flame },
-  { id: 'popular', label: 'Popular', icon: TrendingUp },
-  { id: 'top_rated', label: 'Top Rated', icon: Award },
-  { id: 'upcoming', label: 'Upcoming', icon: Sparkles }
-];
-
-function _renderCategoryTabs(state: any, handlers: any) {
+function _renderCategoryTabs(state: HomeState, handlers: HomeHandlers) {
   return (
     <div className="flex gap-2 p-1 bg-slate-900 rounded-xl w-full md:w-auto overflow-x-auto">
       {CATEGORIES.map(cat => (
@@ -34,7 +22,7 @@ function _renderCategoryTabs(state: any, handlers: any) {
   );
 }
 
-function _renderSearchBar(state: any, handlers: any) {
+function _renderSearchBar(state: HomeState, handlers: HomeHandlers) {
   return (
     <div className="relative w-full md:w-80">
       <Search className="absolute left-3 top-2.5 w-4 h-4 text-slate-400" />
@@ -50,11 +38,11 @@ function _renderSearchBar(state: any, handlers: any) {
   );
 }
 
-function _renderMoviesGrid(state: any) {
+function _renderMoviesGrid(state: HomeState) {
   if (state.movies.length > 0) {
     return (
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-        {state.movies.map((m: any) => <MovieCard key={m.id} movie={m} />)}
+        {state.movies.map((m: Movie) => <MovieCard key={m.id} movie={m} />)}
         {state.isLoading && Array.from({ length: 4 }).map((_, i) => <MovieSkeleton key={`sk-${i}`} />)}
       </div>
     );

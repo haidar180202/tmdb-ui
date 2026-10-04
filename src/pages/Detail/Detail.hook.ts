@@ -25,8 +25,8 @@ export function useDetailHook() {
       .then(data => { 
         if (mounted) setMovie(data); 
       })
-      .catch(err => { 
-        if (mounted) setError(err.message); 
+      .catch((err) => { 
+        if (mounted) setError(err instanceof Error ? err.message : 'Unknown error'); 
       })
       .finally(() => { 
         if (mounted) setIsLoading(false); 

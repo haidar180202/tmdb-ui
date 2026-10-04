@@ -47,8 +47,8 @@ function _useFetchMovies(category: MovieCategory, debouncedQuery: string) {
         return [...prev, ...unique];
       });
       setTotalPages(data.total_pages); setPage(targetPage);
-    } catch (err: any) {
-      setError(err.message || 'Failed to fetch movies');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to fetch movies');
     } finally {
       setIsLoading(false);
     }
