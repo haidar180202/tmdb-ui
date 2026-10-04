@@ -1,7 +1,7 @@
 import { RefreshCw, Film, Search, Flame, TrendingUp, Award, Sparkles, X } from 'lucide-react';
 import { MovieCard, MovieSkeleton } from '../../components/MovieCard.component';
 import { useHomeHook } from './Home.hook';
-import type { MovieCategory } from '../../api/tmdb.api';
+import type { MovieCategory } from '../../api/tmdb.type';
 
 const CATEGORIES = [
   { id: 'now_playing', label: 'Now Playing', icon: Flame },

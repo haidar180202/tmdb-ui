@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { tmdbApi, type MovieDetail } from '../../api/tmdb.api';
+import { tmdbApi } from '../../api/tmdb.api';
+import type { MovieDetail } from '../../api/tmdb.type';
 
 export function useDetailHook() {
   const { id } = useParams();

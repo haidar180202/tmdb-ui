@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
-import { tmdbApi, type Movie, type MovieCategory } from '../../api/tmdb.api';
+import { tmdbApi } from '../../api/tmdb.api';
+import type { Movie, MovieCategory } from '../../api/tmdb.type';
 
 function _useDebounce<T>(value: T, delay: number): T {
   const [debouncedValue, setDebouncedValue] = useState(value);

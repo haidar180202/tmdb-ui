@@ -1,6 +1,6 @@
 import { Film, Star, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import type { Movie } from '../api/tmdb.api';
+import type { Movie } from '../api/tmdb.type';
 import { useMovieCardHook } from './MovieCard.hook';
 
 function _getImageUrl(path: string | null) {
