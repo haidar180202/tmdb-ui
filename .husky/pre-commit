@@ -5,13 +5,13 @@ echo "🛡️ RUNNING PRE-COMMIT CHECKS (Lint, Typecheck, Tests)"
 echo "======================================================="
 
 # Run TypeScript checking
-echo "\n⏳ 1. Checking TypeScript Types (tsc)..."
+echo "\n⏳ 1. Checking Linting & TypeScript Types (Oxlint & tsc)..."
 pnpm run lint || {
   echo ""
   echo "    🤖 BEEP BOOP! ERROR DETECTED! 🤖"
   echo "    /-----------------------------\\"
-  echo "    | TYPECHECK FAILED!           |"
-  echo "    | Please fix TS errors.       |"
+  echo "    | TYPECHECK/LINTING FAILED!   |"
+  echo "    | Please fix errors.          |"
   echo "    \\-----------------------------/"
   echo "           \\   ^__^"
   echo "            \\  (xx)\\_______"
@@ -22,14 +22,14 @@ pnpm run lint || {
   exit 1
 }
 
-# Run Testing with Oxlint
-echo "\n⏳ 2. Running Unit Tests & Checking (Oxlint)..."
-pnpm run test || {
+# Run Unit Tests WITH Coverage Threshold
+echo "\n⏳ 2. Running Unit Tests & Coverage Verification (Vitest)..."
+pnpm run coverage || {
   echo ""
   echo "    🤖 BEEP BOOP! ERROR DETECTED! 🤖"
   echo "    /-----------------------------\\"
-  echo "    | TESTS / LINTING FAIL!       |"
-  echo "    | Please fix broken files.    |"
+  echo "    | UNIT TESTS / COVERAGE FAIL! |"
+  echo "    | Please fix broken tests.    |"
   echo "    \\-----------------------------/"
   echo "           \\   ^__^"
   echo "            \\  (xx)\\_______"

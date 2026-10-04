@@ -30,7 +30,7 @@ export function MovieSkeleton() {
 
 /**
  * Renders an individual movie thumbnail card.
- * @param {Object} props - React props.
+ * @param {{ movie: Movie }} props - React component props.
  * @param {Movie} props.movie - Movie data object to render.
  * @returns {JSX.Element} Movie card component.
  */

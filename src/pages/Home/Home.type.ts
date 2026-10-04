@@ -23,3 +23,22 @@ export type HomeHandlers = {
   retry: () => void;
   loadMore: () => void;
 };
+
+export type HomeRefs = {
+  loadMoreRef: React.MutableRefObject<HTMLDivElement | null>;
+};
+
+export type HomeHookReturn = {
+  state: HomeState;
+  handlers: HomeHandlers;
+  refs: HomeRefs;
+};
+
+export type FetchMoviesReturn = {
+  movies: Movie[];
+  page: number;
+  totalPages: number;
+  isLoading: boolean;
+  error: string | null;
+  fetchMovies: (targetPage: number, isNewSearch: boolean) => Promise<void>;
+};

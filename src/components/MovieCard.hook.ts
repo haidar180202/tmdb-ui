@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import type { MovieCardHookReturn } from './MovieCard.type';
 
 /**
  * Manages local UI state for the MovieCard component.
- * @returns {Object} Structured object containing state and image load handler.
+ * @returns {MovieCardHookReturn} Component state and handlers.
  */
-export function useMovieCardHook() {
+export function useMovieCardHook(): MovieCardHookReturn {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   return {

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { tmdbApi } from '../../api/tmdb.api';
 import type { Movie, MovieCategory } from '../../api/tmdb.type';
+import type { HomeHookReturn, FetchMoviesReturn } from './Home.type';
 
 /**
  * Delays state updates to prevent rapid consecutive re-renders.
@@ -43,9 +44,9 @@ function _useIntersectionObserver(hasMore: boolean, isLoading: boolean, loadMore
  * Manages fetching movies based on category or search query.
  * @param {MovieCategory} category - Current active category.
  * @param {string} debouncedQuery - Current active search query.
- * @returns {Object} Object containing movie array, pagination, state, and fetch trigger.
+ * @returns {FetchMoviesReturn} Pagination and state for fetching movies.
  */
-function _useFetchMovies(category: MovieCategory, debouncedQuery: string) {
+function _useFetchMovies(category: MovieCategory, debouncedQuery: string): FetchMoviesReturn {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -78,9 +79,9 @@ function _useFetchMovies(category: MovieCategory, debouncedQuery: string) {
 
 /**
  * Main hook that composes state, handlers, and refs for HomePage.
- * @returns {Object} Structured object containing state, handlers, and refs.
+ * @returns {HomeHookReturn} The hook's composed logic.
  */
-export function useHomeHook() {
+export function useHomeHook(): HomeHookReturn {
   const [activeCategory, setActiveCategory] = useState<MovieCategory>('popular');
   const [searchQuery, setSearchQuery] = useState('');
   const debouncedQuery = _useDebounce(searchQuery, 500);

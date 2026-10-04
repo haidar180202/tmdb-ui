@@ -1,5 +1,5 @@
 import { renderHook, act } from '@testing-library/react';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, Mock } from 'vitest';
 import { useDetailHook } from './Detail.hook';
 import { tmdbApi } from '../../api/tmdb.api';
 import * as routerModule from 'react-router-dom';
@@ -21,15 +21,15 @@ describe('Hook: useDetailHook', () => {
   });
 
   it('handles missing movieId from URL', () => {
-    (routerModule.useParams as any).mockReturnValue({}); // No ID
+    (routerModule.useParams as Mock).mockReturnValue({}); // No ID
     const { result } = renderHook(() => useDetailHook());
     expect(result.current.state.isLoading).toBe(false);
     expect(tmdbApi.getMovieDetail).not.toHaveBeenCalled();
   });
 
   it('handles API errors correctly', async () => {
-    (routerModule.useParams as any).mockReturnValue({ id: '123' });
-    (tmdbApi.getMovieDetail as any).mockRejectedValue(new Error('Network Error'));
+    (routerModule.useParams as Mock).mockReturnValue({ id: '123' });
+    (tmdbApi.getMovieDetail as Mock).mockRejectedValue(new Error('Network Error'));
 
     const { result } = renderHook(() => useDetailHook());
 
@@ -43,9 +43,9 @@ describe('Hook: useDetailHook', () => {
   });
 
   it('cleans up correctly on unmount with error', async () => {
-    (routerModule.useParams as any).mockReturnValue({ id: '123' });
-    let rejectApi: any;
-    (tmdbApi.getMovieDetail as any).mockReturnValue(new Promise((_, rej) => { rejectApi = rej; }));
+    (routerModule.useParams as Mock).mockReturnValue({ id: '123' });
+    let rejectApi: (reason?: Error) => void = () => {};
+    (tmdbApi.getMovieDetail as Mock).mockReturnValue(new Promise((_, rej) => { rejectApi = rej; }));
 
     const { result, unmount } = renderHook(() => useDetailHook());
     expect(result.current.state.isLoading).toBe(true);
@@ -59,8 +59,8 @@ describe('Hook: useDetailHook', () => {
   });
 
   it('executes goBack handler correctly', () => {
-    (routerModule.useParams as any).mockReturnValue({ id: '123' });
-    (tmdbApi.getMovieDetail as any).mockResolvedValue({});
+    (routerModule.useParams as Mock).mockReturnValue({ id: '123' });
+    (tmdbApi.getMovieDetail as Mock).mockResolvedValue({});
     const { result } = renderHook(() => useDetailHook());
 
     act(() => {

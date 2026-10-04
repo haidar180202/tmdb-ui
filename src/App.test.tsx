@@ -1,6 +1,6 @@
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 import { render, screen } from '@testing-library/react';
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import App from './App';
 
 // Mock IntersectionObserver to avoid crashes in child components
@@ -8,7 +8,10 @@ beforeAll(() => {
   class IntersectionObserverMock {
     observe() {} unobserve() {} disconnect() {}
   }
-  global.IntersectionObserver = IntersectionObserverMock as any;
+  Object.defineProperty(globalThis, 'IntersectionObserver', {
+    writable: true,
+    value: IntersectionObserverMock,
+  });
 });
 
 describe('App Routing & Layout', () => {

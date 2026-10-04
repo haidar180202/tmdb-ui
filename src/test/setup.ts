@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom';
+import "@testing-library/jest-dom";
 
 class IntersectionObserverMock {
   observe() {}
@@ -6,4 +6,7 @@ class IntersectionObserverMock {
   disconnect() {}
 }
 
-global.IntersectionObserver = IntersectionObserverMock as any;
+Object.defineProperty(globalThis, "IntersectionObserver", {
+  writable: true,
+  value: IntersectionObserverMock,
+});
